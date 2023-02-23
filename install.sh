@@ -1,6 +1,6 @@
 #!/bin/bash
 # Parse command line arguments
-OPTIONS=$(getopt -o r:c: --long repository:,chart-name: -- "$@")
+OPTIONS=$(getopt -o r:c:n:v: --long repository:,chart-name:,namespace:,chart-version: -- "$@")
 eval set -- "$OPTIONS"
 while true; do
   case "$1" in
