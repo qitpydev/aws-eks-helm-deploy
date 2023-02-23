@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Parse command line arguments
 OPTIONS=$(getopt -o r:c: --long repository:,chart-name: -- "$@")
 eval set -- "$OPTIONS"
@@ -15,6 +14,16 @@ while true; do
       echo "Invalid argument: $1" >&2; exit 1;;
   esac
 done
+
+# Check if required arguments are present
+if [[ -z "$REPOSITORY" ]]; then
+  echo "Repository argument is missing." >&2
+  exit 1
+fi
+if [[ -z "$CHART_NAME" ]]; then
+  echo "Chart name argument is missing." >&2
+  exit 1
+fi
 
 # Install Helm
 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
