@@ -22,6 +22,5 @@ curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bas
 # Create the Helm chart
 helm create $CHART_NAME
 
-# Set the image repository
-echo "image:
-  repository: $REPOSITORY/$CHART_NAME" > $CHART_NAME/values.yaml
+# Set the image.repository value
+sed -i "s|repository: nginx|repository: $REPO|g" $CHART_NAME/values.yaml
