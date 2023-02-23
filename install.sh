@@ -8,6 +8,10 @@ while true; do
       REPOSITORY="$2"; shift 2;;
     -c|--chart-name)
       CHART_NAME="$2"; shift 2;;
+    -n|--namespace)
+      NAMESPACE="$2"; shift 2;;
+    -v|--chart-version)
+      CHART_VERSION="$2"; shift 2;;
     --)
       shift; break;;
     *)
@@ -24,6 +28,14 @@ if [[ -z "$CHART_NAME" ]]; then
   echo "Chart name argument is missing." >&2
   exit 1
 fi
+if [[ -z "$NAMESPACE" ]]; then
+  echo "Namespace argument is missing." >&2
+  exit 1
+fi
+if [[ -z "$CHART_VERSION" ]]; then
+  echo "Chart version argument is missing." >&2
+  exit 1
+fi
 
 # Install Helm
 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
@@ -31,5 +43,7 @@ curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bas
 # Create the Helm chart
 helm create $CHART_NAME
 
-# Set the image.repository value
-sed -i "s|repository: nginx|repository: $REPOSITORY|g" $CHART_NAME/values.yaml
+helm upgrade --install $CHART_NAME $CHART_NAME \
+    --set image.repository=$REPOSITORY \
+    --set image.tag=$CHART_VERSION \
+    --namespace $NAMESPACE
