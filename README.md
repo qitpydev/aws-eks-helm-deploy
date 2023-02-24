@@ -30,7 +30,8 @@ docker run -it \
 
 ---  
 
-__variables required:__  
+__Variables required:__  
+
 `AWS_ACCESS_KEY_ID`=`<YOUR_AWS_ACCESS_KEY_ID>  
 `AWS_SECRET_ACCESS_KEY`=<YOUR_AWS_SECRET_ACCESS_KEY>  
 `AWS_DEFAULT_REGION`=<YOUR_AWS_DEFAULT_REGION>  
