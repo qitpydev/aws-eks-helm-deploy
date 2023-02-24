@@ -1,5 +1,5 @@
 # aws-eks-helm-deploy
-this tool using for CI/CD, you can make deploying an Pod to Kubernetes quickly
+this tool using for CI/CD, you can make deploying an Pod to Kubernetes quickly  
 __Quick run:__
 ``` bash
 docker run -it \                        
@@ -30,20 +30,20 @@ docker run -it \
 
 ---  
 
-__variables required:__
-AWS_ACCESS_KEY_ID=<YOUR_AWS_ACCESS_KEY_ID>
-AWS_SECRET_ACCESS_KEY=<YOUR_AWS_SECRET_ACCESS_KEY>
-AWS_DEFAULT_REGION=<YOUR_AWS_DEFAULT_REGION>
-
-KUBECONFIG_FILE_S3_URL=s3://<YOUR_BUCKET>/<folder>/<kubeconfig-file>
-EKS_CHART_NAME=<YOUR_CHART_NAME>
-EKS_IMAGE_REPOSITORY=<YOUR_IMAGE_REPOSITORY>
-EKS_CHART_VERSION=<YOUR_CHART_VERSION>
-EKS_NAMESPACE=<YOUR_CHART_NAMESPACE>
+__variables required:__  
+AWS_ACCESS_KEY_ID=<YOUR_AWS_ACCESS_KEY_ID>  
+AWS_SECRET_ACCESS_KEY=<YOUR_AWS_SECRET_ACCESS_KEY>  
+AWS_DEFAULT_REGION=<YOUR_AWS_DEFAULT_REGION>  
+  
+KUBECONFIG_FILE_S3_URL=s3://<YOUR_BUCKET>/<folder>/<kubeconfig-file>  
+EKS_CHART_NAME=<YOUR_CHART_NAME>  
+EKS_IMAGE_REPOSITORY=<YOUR_IMAGE_REPOSITORY>  
+EKS_CHART_VERSION=<YOUR_CHART_VERSION>  
+EKS_NAMESPACE=<YOUR_CHART_NAMESPACE>  
 
 ---  
 
-__importance note:__
+__Importance note:__
 
 - this tool require S3 Bucket to hold kubeconfig file, that mean you need to add your kubeconfig file to your S3 Bucket before using this tool
 - your AWS credential need at least AmazonS3ReadOnlyAccess
