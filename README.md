@@ -1,5 +1,7 @@
-# aws-eks-helm-deploy
-this tool using for CI/CD, you can make deploying an Pod to Kubernetes quickly  
+# aws-eks-helm-deploy  
+
+This tool using for CI/CD, you can make deploying an Pod to Kubernetes quickly  
+
 __Quick run:__
 ``` bash
 docker run -it \                        
