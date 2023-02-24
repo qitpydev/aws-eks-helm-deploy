@@ -37,9 +37,6 @@ if [[ -z "$CHART_VERSION" ]]; then
   exit 1
 fi
 
-# Install Helm
-curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
-
 # Create the Helm chart
 helm create $CHART_NAME
 
