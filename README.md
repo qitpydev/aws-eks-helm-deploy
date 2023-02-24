@@ -44,7 +44,7 @@ __Variables REQUIRED:__
 
 ---  
 
-__Importance note:__
+__Please, note:__
 
 - this tool require S3 Bucket to hold kubeconfig file, that mean you need to add your kubeconfig file to your S3 Bucket before using this tool
 - your AWS credential need at least AmazonS3ReadOnlyAccess
