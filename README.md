@@ -48,4 +48,4 @@ __Importance note:__
 
 - this tool require S3 Bucket to hold kubeconfig file, that mean you need to add your kubeconfig file to your S3 Bucket before using this tool
 - your AWS credential need at least AmazonS3ReadOnlyAccess
-- ensure that your cluster-namespace has ready existed
+- ensure that your cluster-namespace has already existed
