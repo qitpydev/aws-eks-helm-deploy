@@ -46,6 +46,6 @@ __Variables REQUIRED (8):__
 
 __Please, note:__
 
-1. this tool require **S3 Bucket** to hold kubeconfig file, that mean you need to add your kubeconfig file to your S3 Bucket before using
-2. your AWS credential need at least **AmazonS3ReadOnlyAccess**
-3. ensure that your cluster-namespace has already existed
+1. this tool require **S3 Bucket** to hold kubeconfig file, that mean you need to add your kubeconfig file to your S3 Bucket before using.
+2. your AWS credential need at least **AmazonS3ReadOnlyAccess**.
+3. ensure that your cluster-namespace has already existed.
