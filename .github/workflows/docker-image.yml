@@ -22,10 +22,10 @@ jobs:
         password: ${{ env.DOCKER_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build -t aws-eks-helm-deploy:1.2 .
+      run: docker build -t aws-eks-helm-deploy:1.2.1 .
 
     - name: Tag Docker image
-      run: docker tag aws-eks-helm-deploy:1.2 qitpy/aws-eks-helm-deploy:1.2
+      run: docker tag aws-eks-helm-deploy:1.2.1 qitpy/aws-eks-helm-deploy:1.2.1
 
     - name: Push Docker image
-      run: docker push qitpy/aws-eks-helm-deploy:1.2
+      run: docker push qitpy/aws-eks-helm-deploy:1.2.1
