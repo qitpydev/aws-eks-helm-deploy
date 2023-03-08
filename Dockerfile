@@ -23,5 +23,4 @@ ENV EKS_CONTAINER_PORT=""
 
 
 # Config kubectl
-# aws s3 cp ${KUBECONFIG_FILE_S3_URL} ~/.kube/config
 ENTRYPOINT ["sh", "run.sh"]
