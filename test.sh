@@ -33,7 +33,3 @@ if [[ -z "$EKS_NAMESPACE" ]]; then
   echo "Namespace argument is missing."
   exit 1
 fi
-if [[ -z "$EKS_CHART_VERSION" ]]; then
-  echo "Chart version argument is missing."
-  exit 1
-fi
