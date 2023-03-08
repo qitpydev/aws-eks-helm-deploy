@@ -37,3 +37,7 @@ if [[ -z "$EKS_CHART_VERSION" ]]; then
   echo "Chart version argument is missing."
   exit 1
 fi
+if [[ -z "$EKS_CONTAINER_PORT" ]]; then
+  echo "container_port argument is missing."
+  exit 1
+fi

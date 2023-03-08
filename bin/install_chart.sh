@@ -25,4 +25,6 @@ helm create $EKS_CHART_NAME
 helm upgrade --install $EKS_CHART_NAME $EKS_CHART_NAME \
     --set image.repository=$EKS_IMAGE_REPOSITORY \
     --set image.tag=$EKS_CHART_VERSION \
+    --set service.port=80 \
+    --set containerPort=$EKS_CONTAINER_PORT \
     --namespace $EKS_NAMESPACE
