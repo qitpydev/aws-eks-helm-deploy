@@ -3,8 +3,9 @@ FROM alpine:3.17.2
 # Installing AWS-CLI/Kubectl/Helm
 COPY . .
 RUN chmod +x /bin/*
-RUN chmod +x run.sh
-RUN chmod +x test.sh
+# RUN chmod +x run.sh
+# RUN chmod +x test.sh
+RUN chmod +x *.sh
 RUN sh /bin/install_tools.sh
 
 # Config AWS
