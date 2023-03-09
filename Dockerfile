@@ -5,7 +5,7 @@ COPY . /aws-eks-helm-deploy
 WORKDIR /aws-eks-helm-deploy
 RUN chmod +x ./bin/*
 RUN chmod +x *.sh
-RUN sh /bin/install_tools.sh
+RUN sh ./bin/install_tools.sh
 
 # Config AWS
 ENV AWS_ACCESS_KEY_ID=""
@@ -22,4 +22,4 @@ ENV EKS_CONTAINER_PORT=""
 
 
 # Config kubectl
-ENTRYPOINT ["sh", "run.sh"]
+ENTRYPOINT ["sh", "./run.sh"]
