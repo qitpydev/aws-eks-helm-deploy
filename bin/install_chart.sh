@@ -10,7 +10,7 @@ sed -i "s/containerPort: 80/containerPort: $EKS_CONTAINER_PORT/g" ./$EKS_CHART_N
 
 # Setting livenessProbe vs readinessProbe (optional)
 if [ -n "$EKS_CONTAINER_HEALTH_CHECK_PATH" ]; then
-    sed -i "s|path: /|path: $APP_HEALTH_CHECK_PATH|g" ./$EKS_CHART_NAME/templates/deployment.yaml
+    sed -i "s|path: /|path: $EKS_CONTAINER_HEALTH_CHECK_PATH|g" ./$EKS_CHART_NAME/templates/deployment.yaml
 fi
 
 # Installing
