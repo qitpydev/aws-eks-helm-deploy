@@ -1,10 +1,9 @@
 FROM alpine:3.17.2
 
 # Installing AWS-CLI/Kubectl/Helm
-COPY . .
-RUN chmod +x /bin/*
-# RUN chmod +x run.sh
-# RUN chmod +x test.sh
+COPY . /aws-eks-helm-deploy
+WORKDIR /aws-eks-helm-deploy
+RUN chmod +x ./bin/*
 RUN chmod +x *.sh
 RUN sh /bin/install_tools.sh
 
