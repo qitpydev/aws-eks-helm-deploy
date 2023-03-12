@@ -29,7 +29,7 @@ docker run \
   -e EKS_IMAGE_REPOSITORY=helloword \
   -e EKS_CHART_VERSION=1 \
   -e EKS_CONTAINER_PORT=80 \
-  -e EKS_CONTAINER_HEALTH_CHECK_PATH="\" \
+  -e EKS_CONTAINER_HEALTH_CHECK_PATH="/" \
   -e EKS_NAMESPACE=default \
   qitpy/aws-eks-helm-deploy
 ```
