@@ -4,7 +4,7 @@ This tool using for CI/CD, you can make deploying an Pod to Kubernetes quickly
 
 __Quick run:__
 ``` bash
-docker run -it \                        
+docker run \                        
   -e AWS_ACCESS_KEY_ID=<YOUR_AWS_ACCESS_KEY_ID> \
   -e AWS_SECRET_ACCESS_KEY=<YOUR_AWS_SECRET_ACCESS_KEY> \
   -e AWS_DEFAULT_REGION=<YOUR_AWS_DEFAULT_REGION> \
@@ -12,13 +12,15 @@ docker run -it \
   -e EKS_CHART_NAME=<YOUR_CHART_NAME> \
   -e EKS_CHART_VERSION=<YOUR_CHART_VERSION> \
   -e EKS_IMAGE_REPOSITORY=<YOUR_IMAGE_REPOSITORY> \
+  -e EKS_CONTAINER_PORT=<YOUR_CONTAINER_PORT> \
+  -e EKS_CONTAINER_HEALTH_CHECK_PATH=<YOUR_READINESS_LIVENESS_PORT> \
   -e EKS_NAMESPACE=<YOUR_CHART_NAMESPACE> \
   qitpy/aws-eks-helm-deploy
 ```
 
 __Example:__
 ``` bash
-docker run -it \                        
+docker run \                        
   -e AWS_ACCESS_KEY_ID=2pf8F1tZMhbIuFfclVGz \
   -e AWS_SECRET_ACCESS_KEY=bUbFefyoaf4Fq8V8AIIV/gVrbL8i0uxl9hRd2Xqrp \
   -e AWS_DEFAULT_REGION=ap-southeast-1 \
@@ -26,6 +28,8 @@ docker run -it \
   -e EKS_CHART_NAME=my-chart-name \
   -e EKS_IMAGE_REPOSITORY=helloword \
   -e EKS_CHART_VERSION=1 \
+  -e EKS_CONTAINER_PORT=80 \
+  -e EKS_CONTAINER_HEALTH_CHECK_PATH="\" \
   -e EKS_NAMESPACE=default \
   qitpy/aws-eks-helm-deploy
 ```
@@ -39,10 +43,15 @@ __Variables REQUIRED (8):__
 - `AWS_DEFAULT_REGION` : your aws default region
   
 - `KUBECONFIG_FILE_S3_URL` : s3://<your_bucket_name>/<folder_name>/<kubeconfig_file>
+
 - `EKS_CHART_NAME` : helm chart name to create and install
 - `EKS_IMAGE_REPOSITORY` : your image registry uri / or public name 
 - `EKS_CHART_VERSION` : the version chart you want 
-- `EKS_NAMESPACE` : namespace in cluster EKS to install chart into 
+- `EKS_NAMESPACE` : namespace in cluster EKS to install chart into  
+
+(optionals)
+- `EKS_CONTAINER_PORT` : your port of your container (**using this port in ingress-port** - default is 80)
+- `EKS_CONTAINER_HEALTH_CHECK_PATH` : the path using to check Readiness & Liveness (default is '/')
 
 ---  
 
