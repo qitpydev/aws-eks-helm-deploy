@@ -22,19 +22,19 @@ helm_args=(
 )
 
 if [ -n "${RESOURCE_LIMITS_CPU+x}" ]; then
-    helm_args+=(--set resources.limits.cpu=$RESOURCE_LIMITS_CPU)
+    helm_args+=("--set" "resources.limits.cpu=$RESOURCE_LIMITS_CPU")
 fi
 
 if [ -n "${RESOURCE_LIMITS_MEMORY+x}" ]; then
-    helm_args+=(--set resources.limits.memory=$RESOURCE_LIMITS_MEMORY)
+    helm_args+=("--set" "resources.limits.memory=$RESOURCE_LIMITS_MEMORY")
 fi
 
 if [ -n "${RESOURCE_REQUEST_CPU+x}" ]; then
-    helm_args+=(--set resources.requests.cpu=$RESOURCE_REQUEST_CPU)
+    helm_args+=("--set" "resources.requests.cpu=$RESOURCE_REQUEST_CPU")
 fi
 
 if [ -n "${RESOURCE_REQUEST_MEMORY+x}" ]; then
-    helm_args+=(--set resources.requests.memory=$RESOURCE_REQUEST_MEMORY)
+    helm_args+=("--set" "resources.requests.memory=$RESOURCE_REQUEST_MEMORY")
 fi
 
 helm upgrade --install $EKS_CHART_NAME $EKS_CHART_NAME "${helm_args[@]}"
