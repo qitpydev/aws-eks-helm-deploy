@@ -14,27 +14,25 @@ if [ -n "${EKS_CONTAINER_HEALTH_CHECK_PATH+x}" ]; then
 fi
 
 # Installing
-helm_args=(
-    --set image.repository=${EKS_IMAGE_REPOSITORY:?"EKS_IMAGE_REPOSITORY environment variable is not set"}
-    --set image.tag=$EKS_CHART_VERSION
-    --set service.port=$EKS_CONTAINER_PORT
-    --namespace $EKS_NAMESPACE
-)
+helm_args="--set image.repository=${EKS_IMAGE_REPOSITORY:?"EKS_IMAGE_REPOSITORY environment variable is not set"}"
+helm_args="$helm_args --set image.tag=$EKS_CHART_VERSION"
+helm_args="$helm_args --set service.port=$EKS_CONTAINER_PORT"
+helm_args="$helm_args --namespace $EKS_NAMESPACE"
 
 if [ -n "${RESOURCE_LIMITS_CPU+x}" ]; then
-    helm_args+=("--set" "resources.limits.cpu=$RESOURCE_LIMITS_CPU")
+    helm_args="$helm_args --set resources.limits.cpu=${RESOURCE_LIMITS_CPU}"
 fi
 
 if [ -n "${RESOURCE_LIMITS_MEMORY+x}" ]; then
-    helm_args+=("--set" "resources.limits.memory=$RESOURCE_LIMITS_MEMORY")
+    helm_args="$helm_args --set resources.limits.memory=${RESOURCE_LIMITS_MEMORY}"
 fi
 
 if [ -n "${RESOURCE_REQUEST_CPU+x}" ]; then
-    helm_args+=("--set" "resources.requests.cpu=$RESOURCE_REQUEST_CPU")
+    helm_args="$helm_args --set resources.requests.cpu=${RESOURCE_REQUEST_CPU}"
 fi
 
 if [ -n "${RESOURCE_REQUEST_MEMORY+x}" ]; then
-    helm_args+=("--set" "resources.requests.memory=$RESOURCE_REQUEST_MEMORY")
+    helm_args="$helm_args --set resources.requests.memory=${RESOURCE_REQUEST_MEMORY}"
 fi
 
-helm upgrade --install $EKS_CHART_NAME $EKS_CHART_NAME "${helm_args[@]}"
+helm upgrade --install $EKS_CHART_NAME $EKS_CHART_NAME $helm_args
