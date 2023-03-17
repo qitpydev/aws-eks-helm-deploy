@@ -9,7 +9,7 @@ if [ -z ${EKS_CONTAINER_PORT+x} ]; then EKS_CONTAINER_PORT=80; fi
 sed -i "s/containerPort: 80/containerPort: $EKS_CONTAINER_PORT/g" ./$EKS_CHART_NAME/templates/deployment.yaml
 
 # Setting livenessProbe vs readinessProbe (optional)
-if [ -n "${EKS_CONTAINER_HEALTH_CHECK_PATH}" ]; then
+if [ -n "${EKS_CONTAINER_HEALTH_CHECK_PATH+x}" ]; then
     sed -i "s|path: /|path: $EKS_CONTAINER_HEALTH_CHECK_PATH|g" ./$EKS_CHART_NAME/templates/deployment.yaml
 fi
 
