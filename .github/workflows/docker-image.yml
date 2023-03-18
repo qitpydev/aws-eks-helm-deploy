@@ -2,30 +2,20 @@ name: Docker Image CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "feat/config-deploy-branch" ]
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 jobs:
-  build-and-push:
+  display-branch-names:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Login to Dockerhub
-      uses: docker/login-action@v1
-      with:
-        username: ${{ env.DOCKER_USERNAME }}
-        password: ${{ env.DOCKER_PASSWORD }}
-
-    - name: Build Docker image
-      run: docker build -t aws-eks-helm-deploy:1.3 .
-
-    - name: Tag Docker image
-      run: docker tag aws-eks-helm-deploy:1.3 qitpy/aws-eks-helm-deploy:1.3
-
-    - name: Push Docker image
-      run: docker push qitpy/aws-eks-helm-deploy:1.3
+      - name: Display branch names
+        run: |
+          git fetch
+          git branch | awk '{print $NF}'
