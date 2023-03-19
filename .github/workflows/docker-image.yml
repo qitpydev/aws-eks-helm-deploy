@@ -42,46 +42,37 @@ jobs:
         export EKS_NAMESPACE=default
         sh ./bin/install_chart.sh
 
-    - name: Waiting for install app & check result
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check if deploy branch
       run: |
-        sleep 5
-        sh ./test/check_result.sh
+        branch_name=$(git branch --show-current)
+        echo "Branch name: $branch_name"
 
+        if [[ "$branch_name" =~ ^v[0-9]+\.[0-9]+$ ]]; then
+          echo "Branch name matches pattern."
+          is_deploy_branch=true
+          version_number=${branch_name#v} # remove the "v" prefix
+        else
+          echo "Branch name does not match pattern. Stopping the workflow..."
+          exit 0
+        fi
 
-  # run-hello-world:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - name: Checkout repository
-  #     uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-  #   # - name: test
-  #   #   run: docker build -t aws-eks-helm-deploy:${version_number} -f Dockerfile.ci .
+    - name: Login to Dockerhub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ env.DOCKER_USERNAME }}
+        password: ${{ env.DOCKER_PASSWORD }}
 
-  #   - name: Check if deploy branch
-  #     run: |
-  #       branch_name=$(git branch --show-current)
-  #       echo "Branch name: $branch_name"
+    - name: Build Docker image
+      run: docker build -t aws-eks-helm-deploy:${version_number} .
 
-  #       if [[ "$branch_name" =~ ^v[0-9]+\.[0-9]+$ ]]; then
-  #         echo "Branch name matches pattern."
-  #         is_deploy_branch=true
-  #         version_number=${branch_name#v} # remove the "v" prefix
-  #       else
-  #         echo "Branch name does not match pattern. Stopping the workflow..."
-  #         exit 1
-  #       fi
+    - name: Tag Docker image
+      run: docker tag aws-eks-helm-deploy:${version_number} qitpy/aws-eks-helm-deploy:${version_number}
 
-  #   - name: Login to Dockerhub
-  #     uses: docker/login-action@v1
-  #     with:
-  #       username: ${{ env.DOCKER_USERNAME }}
-  #       password: ${{ env.DOCKER_PASSWORD }}
-
-  #   - name: Build Docker image
-  #     run: docker build -t aws-eks-helm-deploy:${version_number} .
-
-  #   - name: Tag Docker image
-  #     run: docker tag aws-eks-helm-deploy:${version_number} qitpy/aws-eks-helm-deploy:${version_number}
-
-  #   - name: Push Docker image
-  #     run: docker push qitpy/aws-eks-helm-deploy:${version_number}
+    - name: Push Docker image
+      run: docker push qitpy/aws-eks-helm-deploy:${version_number}
