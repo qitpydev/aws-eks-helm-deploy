@@ -1,4 +1,4 @@
-name: Run Hello World
+name: Deploy Docker image to Dockerhub
 
 on:
   push:
@@ -36,10 +36,10 @@ jobs:
         password: ${{ env.DOCKER_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build -t aws-eks-helm-deploy:${version_number} .
+      run: docker build -t aws-eks-helm-deploy:${{ env.version_number }} .
 
     - name: Tag Docker image
-      run: docker tag aws-eks-helm-deploy:${version_number} qitpy/aws-eks-helm-deploy:${version_number}
+      run: docker tag aws-eks-helm-deploy:${{ env.version_number }} qitpy/aws-eks-helm-deploy:${{ env.version_number }}
 
     - name: Push Docker image
-      run: docker push qitpy/aws-eks-helm-deploy:${version_number}
+      run: docker push qitpy/aws-eks-helm-deploy:${{ env.version_number }}
