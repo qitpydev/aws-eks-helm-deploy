@@ -24,6 +24,7 @@ jobs:
           echo "Branch name matches pattern."
           is_deploy_branch=true
           export version_number=${branch_name#v} # remove the "v" prefix
+          echo "VERSION_NUMBER=$version_number" >> $GITHUB_ENV
         else
           echo "Branch name does not match pattern. Stopping the workflow..."
           exit 0
@@ -36,10 +37,10 @@ jobs:
         password: ${{ env.DOCKER_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build -t aws-eks-helm-deploy:${version_number} .
+      run: docker build -t aws-eks-helm-deploy:${{ env.VERSION_NUMBER }} .
 
     - name: Tag Docker image
-      run: docker tag aws-eks-helm-deploy:${version_number} qitpy/aws-eks-helm-deploy:${version_number}
+      run: docker tag aws-eks-helm-deploy:${{ env.VERSION_NUMBER }} qitpy/aws-eks-helm-deploy:${{ env.VERSION_NUMBER }}
 
     - name: Push Docker image
-      run: docker push qitpy/aws-eks-helm-deploy:${version_number}
+      run: docker push qitpy/aws-eks-helm-deploy:${{ env.VERSION_NUMBER }}
