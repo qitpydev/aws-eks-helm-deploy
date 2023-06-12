@@ -9,7 +9,18 @@ env:
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 jobs:
+  validate:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          check_together: true
+
   deploy:
+    needs: validate
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
