@@ -10,7 +10,7 @@ sed -i "s/containerPort: 80/containerPort: $EKS_CONTAINER_PORT/g" "./$EKS_CHART_
 
 # Setting livenessProbe vs readinessProbe (optional)
 if [ -n "${EKS_CONTAINER_HEALTH_CHECK_PATH}" ]; then
-    sed -i "s|path: /|path: $EKS_CONTAINER_HEALTH_CHECK_PATH|g" "./$EKS_CHART_NAME/templates/deployment.yaml"
+  sed -i "s|path: /|path: $EKS_CONTAINER_HEALTH_CHECK_PATH|g" "./$EKS_CHART_NAME/templates/deployment.yaml"
 fi
 
 # Installing
@@ -20,19 +20,19 @@ helm_args="$helm_args --set service.port=$EKS_CONTAINER_PORT"
 helm_args="$helm_args --namespace $EKS_NAMESPACE"
 
 if [ -n "${RESOURCE_LIMITS_CPU}" ]; then
-    helm_args="$helm_args --set resources.limits.cpu=${RESOURCE_LIMITS_CPU}"
+  helm_args="$helm_args --set resources.limits.cpu=${RESOURCE_LIMITS_CPU}"
 fi
 
 if [ -n "${RESOURCE_LIMITS_MEMORY}" ]; then
-    helm_args="$helm_args --set resources.limits.memory=${RESOURCE_LIMITS_MEMORY}"
+  helm_args="$helm_args --set resources.limits.memory=${RESOURCE_LIMITS_MEMORY}"
 fi
 
 if [ -n "${RESOURCE_REQUEST_CPU}" ]; then
-    helm_args="$helm_args --set resources.requests.cpu=${RESOURCE_REQUEST_CPU}"
+  helm_args="$helm_args --set resources.requests.cpu=${RESOURCE_REQUEST_CPU}"
 fi
 
 if [ -n "${RESOURCE_REQUEST_MEMORY}" ]; then
-    helm_args="$helm_args --set resources.requests.memory=${RESOURCE_REQUEST_MEMORY}"
+  helm_args="$helm_args --set resources.requests.memory=${RESOURCE_REQUEST_MEMORY}"
 fi
 
 helm upgrade --install "$EKS_CHART_NAME" "$EKS_CHART_NAME" "$helm_args"
