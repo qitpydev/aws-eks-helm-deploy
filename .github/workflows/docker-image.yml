@@ -4,6 +4,10 @@ on:
   push:
     branches: ['*']
 
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
