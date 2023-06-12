@@ -1,6 +1,5 @@
-apk add --update --no-cache curl ca-certificates tar
-apk add --update openssl && \
-    rm -rf /var/cache/apk/*
+#!/bin/sh
+apk add --update --no-cache curl ca-certificates tar openssl
 apk add aws-cli
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
     chmod +x kubectl && \
