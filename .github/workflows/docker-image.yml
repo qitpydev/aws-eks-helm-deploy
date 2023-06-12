@@ -23,7 +23,7 @@ jobs:
         if [[ "$branch_name" =~ ^v[0-9]+\.[0-9]+$ ]]; then
           echo "Branch name matches pattern."
           is_deploy_branch=true
-          version_number=${branch_name#v} # remove the "v" prefix
+          export version_number=${branch_name#v} # remove the "v" prefix
         else
           echo "Branch name does not match pattern. Stopping the workflow..."
           exit 0
@@ -36,10 +36,10 @@ jobs:
         password: ${{ env.DOCKER_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build -t aws-eks-helm-deploy:${{ env.version_number }} .
+      run: docker build -t aws-eks-helm-deploy:${version_number} .
 
     - name: Tag Docker image
-      run: docker tag aws-eks-helm-deploy:${{ env.version_number }} qitpy/aws-eks-helm-deploy:${{ env.version_number }}
+      run: docker tag aws-eks-helm-deploy:${version_number} qitpy/aws-eks-helm-deploy:${version_number}
 
     - name: Push Docker image
-      run: docker push qitpy/aws-eks-helm-deploy:${{ env.version_number }}
+      run: docker push qitpy/aws-eks-helm-deploy:${version_number}
