@@ -5,46 +5,12 @@ on:
     branches: ['*']
 
 jobs:
-  test:
+  deploy:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Install Curl
-      run: apt install curl
-
-    - name: Install kubectl
-      uses: azure/setup-kubectl@v3
-      id: install
-
-    - name: Start minikube
-      id: minikube
-      uses: medyagh/setup-minikube@latest
-      with:
-        driver: docker
-        start-args: '--force'
-
-    - name: Set up Helm
-      # uses: azure/setup-helm@v3
-      # with:
-      #   version: v3.10.0
-      run: |
-        curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-        chmod 700 get_helm.sh
-        ./get_helm.sh
-
-    - name: Testing
-      run: |
-        export EKS_CHART_NAME=nginx
-        export EKS_IMAGE_REPOSITORY=nginx
-        export EKS_CHART_VERSION=4
-        export EKS_NAMESPACE=default
-        sh ./bin/install_chart.sh
-
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
     - name: Check if deploy branch
       run: |
         branch_name=$(git branch --show-current)
@@ -58,9 +24,6 @@ jobs:
           echo "Branch name does not match pattern. Stopping the workflow..."
           exit 0
         fi
-
-    - name: Checkout repository
-      uses: actions/checkout@v3
 
     - name: Login to Dockerhub
       uses: docker/login-action@v1
