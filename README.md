@@ -36,7 +36,7 @@ docker run \
 
 ---  
 
-__Variables REQUIRED (8):__  
+__Variables (*):__  
 
 | Field                        | Required/Optional | Default Value                  | Example Values                                |
 | ---------------------------- | ----------------- | ------------------------------ | --------------------------------------------- |
