@@ -38,7 +38,7 @@ jobs:
           echo "VERSION_NUMBER=$version_number" >> $GITHUB_ENV
         else
           echo "Branch name does not match pattern. Stopping the workflow..."
-          exit 0
+          exit 1
         fi
 
     - name: Login to Dockerhub
