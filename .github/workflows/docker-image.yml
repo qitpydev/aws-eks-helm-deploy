@@ -19,7 +19,7 @@ jobs:
         with:
           check_together: true
 
-  deploy:
+  pre-deploy:
     needs: validate
     runs-on: ubuntu-latest
     steps:
@@ -30,16 +30,28 @@ jobs:
       run: |
         branch_name=$(git branch --show-current)
         echo "Branch name: $branch_name"
-
+        export is_deploy_branch=true
         if [[ "$branch_name" =~ ^v[0-9]+\.[0-9]+$ ]]; then
-          echo "Branch name matches pattern."
-          is_deploy_branch=true
+          echo "Branch name matches with version release."
           export version_number=${branch_name#v} # remove the "v" prefix
           echo "VERSION_NUMBER=$version_number" >> $GITHUB_ENV
+        elif [[ "$branch_name" == "master" ]]; then
+          echo "Branch name is 'master'. Setting VERSION_NUMBER as 'latest'..."
+          export VERSION_NUMBER=latest
+          echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_ENV
         else
           echo "Branch name does not match pattern. Stopping the workflow..."
-          exit
+          export is_deploy_branch=false
+          exit 0
         fi
+
+  deploy:
+    needs: pre-deploy
+    runs-on: ubuntu-latest
+    if: needs.pre-deploy.outputs.is_deploy_branch == 'true'
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
     - name: Login to Dockerhub
       uses: docker/login-action@v1
