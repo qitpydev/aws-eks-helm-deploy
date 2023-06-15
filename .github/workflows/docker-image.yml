@@ -1,19 +1,45 @@
-name: Docker Image CI
+name: Deploy Docker image to Dockerhub
 
 on:
   push:
-    branches: [ "master" ]
+    branches: ['*']
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 jobs:
-  build-and-push:
+  validate:
+    name: Shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run ShellCheck
+        uses: ludeeus/action-shellcheck@master
+        with:
+          check_together: true
+
+  deploy:
+    needs: validate
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
+
+    - name: Check if deploy branch
+      run: |
+        branch_name=$(git branch --show-current)
+        echo "Branch name: $branch_name"
+
+        if [[ "$branch_name" =~ ^v[0-9]+\.[0-9]+$ ]]; then
+          echo "Branch name matches pattern."
+          is_deploy_branch=true
+          export version_number=${branch_name#v} # remove the "v" prefix
+          echo "VERSION_NUMBER=$version_number" >> $GITHUB_ENV
+        else
+          echo "Branch name does not match pattern. Stopping the workflow..."
+          exit 0
+        fi
 
     - name: Login to Dockerhub
       uses: docker/login-action@v1
@@ -22,10 +48,10 @@ jobs:
         password: ${{ env.DOCKER_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build -t aws-eks-helm-deploy:1.3 .
+      run: docker build -t aws-eks-helm-deploy:${{ env.VERSION_NUMBER }} .
 
     - name: Tag Docker image
-      run: docker tag aws-eks-helm-deploy:1.3 qitpy/aws-eks-helm-deploy:1.3
+      run: docker tag aws-eks-helm-deploy:${{ env.VERSION_NUMBER }} qitpy/aws-eks-helm-deploy:${{ env.VERSION_NUMBER }}
 
     - name: Push Docker image
-      run: docker push qitpy/aws-eks-helm-deploy:1.3
+      run: docker push qitpy/aws-eks-helm-deploy:${{ env.VERSION_NUMBER }}
