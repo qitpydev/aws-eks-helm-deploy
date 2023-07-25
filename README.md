@@ -40,20 +40,20 @@ __Variables (*):__
 
 | Field                        | Required/Optional | Default Value                  | Example Values                                |
 | ---------------------------- | ----------------- | ------------------------------ | --------------------------------------------- |
-| AWS_ACCESS_KEY_ID            | Required          | _                              | FAKE_ACCESS_KEY_ID                            |
-| AWS_SECRET_ACCESS_KEY        | Required          | _                              | FAKE_SECRET_ACCESS_KEY                        |
-| AWS_DEFAULT_REGION           | Required          | _                              | us-west-2                                    |
-| KUBECONFIG_FILE_S3_URL       | Required          | _                              | s3://fake-bucket/fake-path/kubeconfig.yaml    |
-| EKS_IMAGE_REPOSITORY         | Required          | _                              | fake-repo                                    |
-| EKS_CHART_NAME               | Required          | _                              | fake-chart                                   |
-| EKS_NAMESPACE                | Required          | _                              | fake-namespace                               |
+| AWS_ACCESS_KEY_ID            | Required          |null                            | FAKE_ACCESS_KEY_ID                            |
+| AWS_SECRET_ACCESS_KEY        | Required          |null                            | FAKE_SECRET_ACCESS_KEY                        |
+| AWS_DEFAULT_REGION           | Required          |null                            | us-west-2                                    |
+| KUBECONFIG_FILE_S3_URL       | Required          |null                            | s3://fake-bucket/fake-path/kubeconfig.yaml    |
+| EKS_IMAGE_REPOSITORY         | Required          |null                            | fake-repo                                    |
+| EKS_CHART_NAME               | Required          |null                            | fake-chart                                   |
+| EKS_NAMESPACE                | Required          |null                            | fake-namespace                               |
 | EKS_CHART_VERSION            | Optional          | latest                         | 1.0.0                                        |
 | EKS_CONTAINER_PORT           | Optional          | 80                             | 8080                                         |
-| EKS_CONTAINER_HEALTH_CHECK_PATH | Optional        | _                              | /health                                      |
-| RESOURCE_LIMITS_CPU          | Optional          | Use Default                    | 2                                            |
-| RESOURCE_LIMITS_MEMORY       | Optional          | Use Default                    | 4Gi                                          |
-| RESOURCE_REQUEST_CPU         | Optional          | Use Default                    | 1                                            |
-| RESOURCE_REQUEST_MEMORY      | Optional          | Use Default                    | 2Gi                                          |
+| EKS_CONTAINER_HEALTH_CHECK_PATH | Optional       | /                              | /health                                      |
+| RESOURCE_LIMITS_CPU          | Optional          | default of helm creating       | 2                                            |
+| RESOURCE_LIMITS_MEMORY       | Optional          | default of helm creating       | 4Gi                                          |
+| RESOURCE_REQUEST_CPU         | Optional          | default of helm creating       | 1                                            |
+| RESOURCE_REQUEST_MEMORY      | Optional          | default of helm creating       | 2Gi                                          |
 
 
 ---  
