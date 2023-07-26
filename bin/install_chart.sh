@@ -38,28 +38,28 @@ helm_args="$helm_args --namespace $EKS_NAMESPACE"
 
 if [ -n "${RESOURCE_LIMITS_CPU}" ]; then
   log "RESOURCE_LIMITS_CPU: $RESOURCE_LIMITS_CPU"
-  helm_args+=" --set resources.limits.cpu=${RESOURCE_LIMITS_CPU}"
+  helm_args="$helm_args --set resources.limits.cpu=${RESOURCE_LIMITS_CPU}"
 else
   log "RESOURCE_LIMITS_CPU: use default"
 fi
 
 if [ -n "${RESOURCE_LIMITS_MEMORY}" ]; then
   log "RESOURCE_LIMITS_MEMORY: $RESOURCE_LIMITS_MEMORY"
-  helm_args+=" --set resources.limits.memory=${RESOURCE_LIMITS_MEMORY}"
+  helm_args="$helm_args --set resources.limits.memory=${RESOURCE_LIMITS_MEMORY}"
 else
   log "RESOURCE_LIMITS_MEMORY: use default"
 fi
 
 if [ -n "${RESOURCE_REQUEST_CPU}" ]; then
   log "RESOURCE_REQUEST_CPU: $RESOURCE_REQUEST_CPU"
-  helm_args+=" --set resources.requests.cpu=${RESOURCE_REQUEST_CPU}"
+  helm_args="$helm_args --set resources.requests.cpu=${RESOURCE_REQUEST_CPU}"
 else
   log "RESOURCE_REQUEST_CPU: use default"
 fi
 
 if [ -n "${RESOURCE_REQUEST_MEMORY}" ]; then
   log "RESOURCE_REQUEST_MEMORY: $RESOURCE_REQUEST_MEMORY"
-  helm_args+=" --set resources.requests.memory=${RESOURCE_REQUEST_MEMORY}"
+  helm_args="$helm_args --set resources.requests.memory=${RESOURCE_REQUEST_MEMORY}"
 else
   log "RESOURCE_REQUEST_MEMORY: use default"
 fi
