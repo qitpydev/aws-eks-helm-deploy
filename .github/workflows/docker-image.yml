@@ -47,7 +47,6 @@ jobs:
           echo "Branch name does not match pattern. Stopping the workflow..."
           echo "IS_DEPLOYABLE=false" >> $GITHUB_OUTPUT
         fi
-        echo "IS_DEPLOYABLE=$IS_DEPLOYABLE" >> $GITHUB_OUTPUT
 
   deploy:
     needs: validate-branch
