@@ -9,7 +9,7 @@ env:
   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
 jobs:
-  validate:
+  validate-code:
     name: Shellcheck
     runs-on: ubuntu-latest
     steps:
@@ -19,35 +19,44 @@ jobs:
         with:
           check_together: true
 
-  deploy:
-    needs: validate
+  validate-branch:
+    needs: validate-code
     runs-on: ubuntu-latest
+    outputs:
+      is_deployable: ${{ steps.validate.outputs.IS_DEPLOYABLE }}
+      version: ${{ steps.validate.outputs.VERSION_NUMBER }}
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
 
     - name: Check if deploy branch
-      id: is_deploy_branch
+      id: validate
       run: |
         branch_name=$(git branch --show-current)
         echo "Branch name: $branch_name"
-        export is_deploy_branch=true
         if [[ "$branch_name" =~ ^v[0-9]+\.[0-9]+$ ]]; then
           echo "Branch name matches with version release."
-          export version_number=${branch_name#v} # remove the "v" prefix
-          echo "VERSION_NUMBER=$version_number" >> $GITHUB_ENV
+          echo "VERSION_NUMBER=${branch_name#v}" >> $GITHUB_OUTPUT
+          echo "IS_DEPLOYABLE=true" >> $GITHUB_OUTPUT
         elif [[ "$branch_name" == "master" ]]; then
           echo "Branch name is 'master'. Setting VERSION_NUMBER as 'latest'..."
           export VERSION_NUMBER=latest
-          echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_ENV
+          echo "VERSION_NUMBER=$VERSION_NUMBER" >> $GITHUB_OUTPUT
+          echo "IS_DEPLOYABLE=true" >> $GITHUB_OUTPUT
         else
           echo "Branch name does not match pattern. Stopping the workflow..."
-          export is_deploy_branch=false
+          echo "IS_DEPLOYABLE=false" >> $GITHUB_OUTPUT
         fi
-        echo "is_deploy_branch=$is_deploy_branch" >> $GITHUB_OUTPUT
 
+  deploy:
+    needs: validate-branch
+    runs-on: ubuntu-latest
+    if: needs.validate-branch.outputs.is_deployable == 'true'
+    env:
+      VERSION_NUMBER : ${{needs.validate-branch.outputs.version}}
+
+    steps:
     - name: Checkout repository
-      if: steps.is_deploy_branch.outputs.is_deploy_branch == 'true'
       uses: actions/checkout@v3
 
     - name: Login to Dockerhub
@@ -57,10 +66,10 @@ jobs:
         password: ${{ env.DOCKER_PASSWORD }}
 
     - name: Build Docker image
-      run: docker build -t aws-eks-helm-deploy:${{ env.VERSION_NUMBER }} .
+      run: docker build -t aws-eks-helm-deploy:${VERSION_NUMBER} .
 
     - name: Tag Docker image
-      run: docker tag aws-eks-helm-deploy:${{ env.VERSION_NUMBER }} qitpy/aws-eks-helm-deploy:${{ env.VERSION_NUMBER }}
+      run: docker tag aws-eks-helm-deploy:${VERSION_NUMBER} qitpy/aws-eks-helm-deploy:${VERSION_NUMBER}
 
     - name: Push Docker image
-      run: docker push qitpy/aws-eks-helm-deploy:${{ env.VERSION_NUMBER }}
+      run: docker push qitpy/aws-eks-helm-deploy:${VERSION_NUMBER}
