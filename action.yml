@@ -1,0 +1,87 @@
+# action.yml
+name: 'Deploy simple app to EKS (Amazon Elastic Kubernetes Service)'
+author: 'qitpy'
+description: '1. this tool require **S3 Bucket** to hold kubeconfig file, that mean you need to add your kubeconfig file to your S3 Bucket before using. \n2. your AWS credential need at least **AmazonS3ReadOnlyAccess**.\n3. ensure that your cluster-namespace has already existed.'
+inputs:
+  AWS_ACCESS_KEY_ID:
+    description: 'AWS Access Key ID | example: 12345678901234567890'
+    required: true
+    default: ''
+  AWS_SECRET_ACCESS_KEY:
+    description: 'AWS Secret Access Key | example: 1234567890123456789012345678901234567890'
+    required: true
+    default: ''
+  AWS_DEFAULT_REGION:
+    description: 'AWS Region | example: us-east-1'
+    required: true
+    default: ''
+  KUBECONFIG_FILE_S3_URL:
+    description: 'S3 URL of kubeconfig file | example: s3://your-bucket-name/kubeconfig'
+    required: true
+    default: ''
+  EKS_IMAGE_REPOSITORY:
+    description: 'EKS image repository | example: 123456789012.dkr.ecr.us-east-1.amazonaws.com/simple-app'
+    required: true
+    default: ''
+  EKS_CHART_NAME:
+    description: 'EKS chart name | example: simple-app'
+    required: true
+    default: ''
+  EKS_NAMESPACE:
+    description: 'EKS namespace | example: default'
+    required: true
+    default: ''
+  EKS_CHART_VERSION:
+    description: 'EKS chart version | example: 1.0.0'
+    required: false
+    default: 'latest'
+  EKS_CONTAINER_PORT:
+    description: 'EKS container port | example: 8080'
+    required: false
+    default: '80'
+  EKS_CONTAINER_HEALTH_CHECK_PATH:
+    description: 'EKS container health check path | example: /health'
+    required: false
+    default: '/'
+  RESOURCE_LIMITS_CPU:
+    description: 'Resource limits CPU | example: 2'
+    required: false
+    default: ''
+  RESOURCE_LIMITS_MEMORY:
+    description: 'Resource limits memory | example: 4Gi'
+    required: false
+    default: ''
+  RESOURCE_REQUEST_CPU:
+    description: 'Resource request CPU | example: 1'
+    required: false
+    default: ''
+  RESOURCE_REQUEST_MEMORY:
+    description: 'Resource request memory | example: 2Gi'
+    required: false
+    default: ''
+
+outputs:
+  time: # id of output
+    description: 'The time we greeted you'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.AWS_ACCESS_KEY_ID }}
+    - ${{ inputs.AWS_SECRET_ACCESS_KEY }}
+    - ${{ inputs.AWS_DEFAULT_REGION }}
+    - ${{ inputs.KUBECONFIG_FILE_S3_URL }}
+    - ${{ inputs.EKS_IMAGE_REPOSITORY }}
+    - ${{ inputs.EKS_CHART_NAME }}
+    - ${{ inputs.EKS_NAMESPACE }}
+    - ${{ inputs.EKS_CHART_VERSION }}
+    - ${{ inputs.EKS_CONTAINER_PORT }}
+    - ${{ inputs.EKS_CONTAINER_HEALTH_CHECK_PATH }}
+    - ${{ inputs.RESOURCE_LIMITS_CPU }}
+    - ${{ inputs.RESOURCE_LIMITS_MEMORY }}
+    - ${{ inputs.RESOURCE_REQUEST_CPU }}
+    - ${{ inputs.RESOURCE_REQUEST_MEMORY
+
+branding:
+  icon: upload
+  color: orange
