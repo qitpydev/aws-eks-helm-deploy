@@ -1,7 +1,7 @@
 # action.yml
 name: 'Deploy simple app to EKS (Amazon Elastic Kubernetes Service)'
 author: 'qitpy'
-description: '1. this tool require **S3 Bucket** to hold kubeconfig file, that mean you need to add your kubeconfig file to your S3 Bucket before using. \n2. your AWS credential need at least **AmazonS3ReadOnlyAccess**.\n3. ensure that your cluster-namespace has already existed.'
+description: 'this tool require S3 Bucket to hold kubeconfig file. your AWS credential need at least AmazonS3ReadOnlyAccess'
 inputs:
   AWS_ACCESS_KEY_ID:
     description: 'AWS Access Key ID | example: 12345678901234567890'
