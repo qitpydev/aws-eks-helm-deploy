@@ -80,7 +80,7 @@ runs:
     - ${{ inputs.RESOURCE_LIMITS_CPU }}
     - ${{ inputs.RESOURCE_LIMITS_MEMORY }}
     - ${{ inputs.RESOURCE_REQUEST_CPU }}
-    - ${{ inputs.RESOURCE_REQUEST_MEMORY
+    - ${{ inputs.RESOURCE_REQUEST_MEMORY }}
 
 branding:
   icon: upload
