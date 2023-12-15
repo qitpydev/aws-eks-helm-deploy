@@ -69,4 +69,4 @@ log "helm_args: $helm_args"
 helm version
 
 # shellcheck disable=SC2086
-helm upgrade --install $EKS_CHART_NAME $EKS_CHART_NAME $helm_args
+helm upgrade --install $EKS_CHART_NAME $EKS_CHART_NAME $helm_args --force
